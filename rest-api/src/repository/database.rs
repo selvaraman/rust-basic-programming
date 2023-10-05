@@ -1,6 +1,13 @@
 use std::fmt::Error;
 use chrono::prelude::*;
 use std::sync::{ Arc, Mutex };
+use chrono::prelude::*;
+use diesel::prelude::*;
+use diesel::r2d2::{self, ConnectionManager};
+use dotenv::dotenv;
+
+use crate::models::schema::todos::dsl::*;
+
 
 use crate::models::todo::Todo;
 
@@ -20,7 +27,7 @@ impl Database {
         let created_at = Utc::now();
         let updated_at = Utc::now();
         let todo = Todo {
-            id: Some(id),
+            id: id,
             created_at: Some(created_at),
             updated_at: Some(updated_at),
             ..todo
